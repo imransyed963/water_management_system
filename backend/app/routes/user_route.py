@@ -7,6 +7,12 @@ from app.config.db import get_db
 from app.schemas.user_schema import UserLogin
 from app.auth.hash_password import verify_password
 from app.auth.jwt_handler import create_access_token
+from app.schemas.user_schema import UserResponse
+from fastapi import Security
+from app.auth.auth_bearer import JWTBearer
+from app.auth.current_user import get_current_user
+from app.auth.role_checker import admin_only
+
 
 router = APIRouter()
 
@@ -37,7 +43,7 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     }
 
 
-@router.get("/users")
+@router.get("/users", response_model=list[UserResponse])
 def get_users(db: Session = Depends(get_db)):
 
     users = db.query(User).all()
@@ -65,7 +71,8 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
         }
 
     token = create_access_token({
-        "sub": existing_user.email
+        "sub": existing_user.email,
+        "role": existing_user.role
     })
 
     return {
@@ -73,3 +80,21 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
         "token_type": "bearer"
     }
 
+@router.get("/profile")
+def profile(
+    current_user: User = Security(get_current_user) 
+):
+    return {
+        "id": current_user.id,
+        "name": current_user.name,
+        "email": current_user.email,
+        "role": current_user.role
+    }
+
+@router.get("/admin-dashboard")
+def admin_dashboard(
+    admin_user: User = Depends(admin_only)
+):
+    return {
+        "message": f"Welcome, Admin!{admin_user.name}"
+    }
