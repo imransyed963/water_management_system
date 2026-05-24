@@ -1,8 +1,9 @@
 import { useState } from "react"
 import api from "../api/api"
+import { useNavigate } from "react-router-dom"
 
 function Login() {
-
+  const navigate = useNavigate()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -22,10 +23,19 @@ function Login() {
 
       localStorage.setItem(
         "token",
-        response.data.access_token
+        response.data.access_token,
+      )
+      localStorage.setItem(
+        "role",
+        response.data.role,
       )
 
-      alert("Login successful")
+       if (response.data.role === "admin") {
+        navigate("/admin")
+       }else{
+        navigate("/dashboard")
+       }
+      
 
     } catch (error) {
 
