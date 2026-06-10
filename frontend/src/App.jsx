@@ -11,6 +11,8 @@ import AdminDashboard from "./pages/AdminDashboard"
 import AdminRoute from "./components/AdminRoute"
 import AddMaintenance from "./pages/AddMaintenance.jsx"
 import AddWaterSupply from "./pages/AddWaterSupply.jsx"
+import ManageWaterSupply from "./pages/ManageWaterSupply.jsx"
+import EditWaterSupply from "./pages/EditWaterSupply.jsx"
 
 function App() {
 
@@ -60,6 +62,24 @@ function App() {
         element={
           <AdminRoute>
             <AddWaterSupply />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/manage-water"
+        element={
+          <AdminRoute>
+            <ManageWaterSupply />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/edit-water/:id"
+        element={
+          <AdminRoute>
+            <EditWaterSupply />
           </AdminRoute>
         }
       />

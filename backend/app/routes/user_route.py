@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from app.auth.hash_password import hash_password
 from app.models.user import User
@@ -19,9 +20,7 @@ router = APIRouter()
 @router.post("/register")
 def register(user: UserCreate, db: Session = Depends(get_db)):
 
-    existing_user = db.query(User).filter(
-        User.email == user.email
-    ).first()
+    existing_user = db.query(User).filter(User.email == user.email).first()
 
     if existing_user:
         return {
@@ -53,37 +52,27 @@ def get_users(db: Session = Depends(get_db)):
 @router.post("/login")
 def login(user: UserLogin, db: Session = Depends(get_db)):
 
-    existing_user = db.query(User).filter(
-        User.email == user.email
-    ).first()
+    existing_user = db.query(User).filter(User.email == user.email).first()
 
     if not existing_user:
-        return {
-            "message": "Invalid email"
-        }
+        raise HTTPException(status_code=404, detail="Invalid email")
 
     if not verify_password(
         user.password,
         existing_user.password
     ):
-        return {
-            "message": "Invalid password"
-        }
+        raise HTTPException(status_code=400, detail="Invalid password")
 
-    token = create_access_token({
-        "sub": existing_user.email,
-        "role": existing_user.role
-    })
+    token = create_access_token({"sub": existing_user.email,"role": existing_user.role})
 
     return {
         "access_token": token,
-        "token_type": "bearer"
+        "token_type": "bearer",
+        "role": existing_user.role
     }
 
 @router.get("/profile")
-def profile(
-    current_user: User = Security(get_current_user) 
-):
+def profile(current_user: User = Security(get_current_user)):
     return {
         "id": current_user.id,
         "name": current_user.name,
@@ -92,9 +81,7 @@ def profile(
     }
 
 @router.get("/admin-dashboard")
-def admin_dashboard(
-    admin_user: User = Depends(admin_only)
-):
+def admin_dashboard(admin_user: User = Depends(admin_only)):
     return {
         "message": f"Welcome, Admin!{admin_user.name}"
     }

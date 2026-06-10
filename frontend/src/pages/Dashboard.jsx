@@ -76,6 +76,12 @@ function Dashboard() {
     )
   }
 
+  {waterSupply.length === 0 && (
+
+    <p className="text-gray-500">
+      No water supply data available.
+    </p>)}
+
   return (
 
     <div className="p-10">

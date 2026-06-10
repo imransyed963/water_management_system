@@ -57,6 +57,19 @@ function AdminDashboard() {
           </p>
 
        </Link>
+       <Link
+         to="/manage-water"
+         className="border p-5 rounded-xl shadow">
+
+          <h2 className="text-2xl font-bold mb-3">
+           Manage Water Supply
+          </h2>
+
+          <p>
+            View and delete records
+          </p>
+
+        </Link>
 
       </div>
 

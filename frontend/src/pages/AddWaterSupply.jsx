@@ -1,4 +1,6 @@
 import { useState } from "react"
+import { useEffect } from "react"
+import { getAreas } from "../services/areaService"
 
 import api from "../api/api"
 
@@ -15,6 +17,20 @@ function AddWaterSupply() {
 
       status: ""
     })
+  const [areas, setAreas] = useState([])
+
+  useEffect(() => {
+    const fetchAreas = async () => {
+
+      try {
+        const data = await getAreas()
+        setAreas(data)
+      } catch (error) {
+        console.log("Failed to fetch areas", error)
+      }
+    }
+    fetchAreas()
+  }, [])
 
   const handleChange = (e) => {
 
@@ -71,12 +87,19 @@ function AddWaterSupply() {
          onSubmit={handleSubmit}
          className="max-w-xl space-y-4" >
 
-         <input
-          type="number"
-          name="area_id"
-          placeholder="Area ID"
-          className="border p-3 w-full"
-          onChange={handleChange}/>
+          <select
+            name="area_id"
+            placeholder="Area"
+            className="border p-3 w-full"
+            onChange={handleChange}
+          >
+            <option value="">Select Area</option>
+            {areas.map((area) => (
+              <option key={area.id} value={area.id}>
+                {area.name} {"-"} {area.district}
+              </option>
+            ))}
+          </select>
 
          <input
           type="text"

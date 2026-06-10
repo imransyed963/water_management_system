@@ -57,3 +57,62 @@ def get_water_supply(
     ).all()
 
     return water_data
+
+
+@router.delete("/water-supply/{id}")
+def delete_water_supply(
+    id: int,
+    admin = Depends(admin_only),
+    db: Session = Depends(get_db)
+):
+
+    water = db.query(
+        WaterSupply
+    ).filter(
+        WaterSupply.id == id
+    ).first()
+
+    if not water:
+
+        return {
+            "message": "Record not found"
+        }
+
+    db.delete(water)
+
+    db.commit()
+
+    return {
+        "message": "Water supply deleted"
+    }
+
+@router.put("/water-supply/{id}")
+def update_water_supply(
+    id: int,
+    water: WaterSupplyCreate,
+    admin = Depends(admin_only),
+    db: Session = Depends(get_db)
+):
+
+    water_record = db.query(
+        WaterSupply
+    ).filter(
+        WaterSupply.id == id
+    ).first()
+
+    if not water_record:
+
+        return {
+            "message": "Record not found"
+        }
+
+    water_record.area_id = water.area_id
+    water_record.water_type = water.water_type
+    water_record.supply_time = water.supply_time
+    water_record.status = water.status
+
+    db.commit()
+
+    return {
+        "message": "Water supply updated"
+    }
