@@ -9,7 +9,8 @@ from app.models.water_supply_model import WaterSupply
 from app.routes.water_supply_routes import (router as water_router)
 from app.models.maintenance import Maintenance
 from app.routes.maintenance_route import (router as maintenance_router)
-
+from app.routes.dashboard_route import (router as dashboard_router)
+    
 app = FastAPI()
 
 app.add_middleware(
@@ -26,7 +27,7 @@ app.include_router(user_router)
 app.include_router(area_router)
 app.include_router(water_router)
 app.include_router(maintenance_router)
-
+app.include_router(dashboard_router)
 @app.get("/")
 def home():
     return {"message": "Water Management API"}

@@ -1,8 +1,11 @@
+import{FaWater} from "react-icons/fa"
+
 function WaterCard({ water }) {
 
   return (
 
-    <div className="border rounded-xl p-5 shadow">
+    <div className=" bg-white rounded-2xl p-5
+    shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
 
       <h2 className="text-2xl font-bold mb-2">
         {water.area.name}

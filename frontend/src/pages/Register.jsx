@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import api from "../api/api"
+import { Link } from "react-router-dom"
 
 function Register() {
 
@@ -42,15 +43,20 @@ function Register() {
 
   return (
 
-    <div className="flex justify-center items-center h-screen">
+    <div className="min-h-screen flex justify-center items-center bg-linear-to-br from-blue-500 via-cyan-500 to-indigo-700">
 
       <form
         onSubmit={handleRegister}
-        className="border p-10 rounded-xl shadow-lg w-96"
+        className="w-96 p-8 rounded-2xl bg-white/20 backdrop-blur-lg shadow-2xl border border-white/30"
       >
 
-        <h1 className="text-3xl font-bold mb-6"> Register </h1>
+          <h1 className="text-4xl font-bold text-white text-center mb-2">
+            Create Account
+          </h1>
 
+          <p className="text-white/80 text-center mb-6">
+            Water Management System
+          </p>
         <input
           type="text"
           placeholder="Name"
@@ -85,10 +91,28 @@ function Register() {
 
         <button
           disabled={loading}
-          className="bg-black text-white px-4 py-2 w-full  disabled:opacity-50"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold
+                      py-3 rounded-lg transition-all duration-300 hover:scale-105"
         >
           {loading ? "Creating account..." : "Register"} 
         </button>
+           <div className="mt-4 text-center w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold
+                      py-3 rounded-lg transition-all duration-300 hover:scale-105">
+
+            <p>
+
+              Already have an account?
+
+              <Link
+                to="/"
+                className="text-blue-950 ml-1"
+              >
+                Login
+              </Link>
+
+            </p>
+
+          </div>
 
       </form>
 

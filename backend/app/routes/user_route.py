@@ -23,9 +23,7 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == user.email).first()
 
     if existing_user:
-        return {
-            "message": "Email already registered"
-        }
+        return { "message": "Email already registered"}
 
     new_user = User(
         name=user.name,
@@ -37,9 +35,7 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
 
-    return {
-        "message": "User registered successfully"
-    }
+    return { "message": "User registered successfully"}
 
 
 @router.get("/users", response_model=list[UserResponse])
@@ -68,7 +64,8 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
     return {
         "access_token": token,
         "token_type": "bearer",
-        "role": existing_user.role
+        "role": existing_user.role,
+        "name": existing_user.name
     }
 
 @router.get("/profile")
@@ -82,6 +79,4 @@ def profile(current_user: User = Security(get_current_user)):
 
 @router.get("/admin-dashboard")
 def admin_dashboard(admin_user: User = Depends(admin_only)):
-    return {
-        "message": f"Welcome, Admin!{admin_user.name}"
-    }
+    return {"message": f"Welcome, Admin!{admin_user.name}"}

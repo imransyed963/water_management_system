@@ -12,11 +12,14 @@ import {
 import WaterCard from "../components/watercard.jsx"
 
 import MaintenanceCard from "../components/maintenancecard.jsx"
+import Navbar from "../components/Navbar.jsx"
 
 function Dashboard() {
 
-  const navigate = useNavigate()
+  const name = localStorage.getItem("name")
 
+  const navigate = useNavigate()
+  
   const [waterSupply, setWaterSupply] =
     useState([])
 
@@ -83,20 +86,24 @@ function Dashboard() {
     </p>)}
 
   return (
+       <>
+      <Navbar />
 
-    <div className="p-10">
+    <div className="min-h-screen bg-slate-300 p-6">
 
-        <button onClick={handleLogout}
-        className="bg-red-500 text-white px-4 py-2 rounded mb-5">
-          Logout
-        </button>
+      <div className="bg-linear-to-r from-blue-600 to-cyan-500 text-white p-6 rounded-2xl shadow mb-6">
 
-      <h1 className="text-4xl font-bold mb-10">
-        Citizen Dashboard
-      </h1>
+        <h1 className="text-3xl font-bold">
+          Welcome, {name} !
+        </h1>
 
+        <p className="mt-2">
+          Stay updated with water supply schedules and maintenance notices.
+        </p>
+
+      </div>
       <h2 className="text-3xl font-bold mb-5">
-        Water Supply
+        💧 Water Supply
       </h2>
 
       <div className="grid md:grid-cols-2 gap-5 mb-10">
@@ -113,7 +120,7 @@ function Dashboard() {
       </div>
 
       <h2 className="text-3xl font-bold mb-5">
-        Maintenance Updates
+        🛠️ Maintenance Updates
       </h2>
 
       <div className="grid md:grid-cols-2 gap-5">
@@ -130,7 +137,7 @@ function Dashboard() {
       </div>
 
     </div>
-  )
+  </>)
 }
 
 export default Dashboard
