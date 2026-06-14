@@ -1,7 +1,11 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+from dotenv import load_dotenv
+import os
 
-DATABASE_URL = "mysql+pymysql://root:immu123@127.0.0.1/water_management_system"
+load_dotenv()  # Load environment variables from .env file
+
+DATABASE_URL=os.getenv("DATABASE_URL")
 
 engine = create_engine(DATABASE_URL)
 
