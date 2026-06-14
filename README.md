@@ -108,13 +108,13 @@ Backend API Docs: https://water-management-system-njnu.onrender.com
 -> Clone Repository - https://github.com/imransyed963/water_management_system.git      
 git clone 
 -> Backend Setup  
-cd backend
-pip install -r requirements.txt
-uvicorn app.main:app --reload  
+cd backend   
+pip install -r requirements.txt   
+uvicorn app.main:app --reload     
 -> Frontend Setup    
-cd frontend
-npm install
-npm run dev
+cd frontend   
+npm install   
+npm run dev   
 
 * 📚 What I Learned :  
 Building REST APIs using FastAPI,    
