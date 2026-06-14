@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-import {
-  getWaterSupply
-} from "../services/waterservice.js"
+import {getAreas} from "../services/areaservice.js"
 
-import {
-  getMaintenance
-} from "../services/maintenanceservice.js"
+import { getWaterSupply } from "../services/waterservice.js"
+
+import { getMaintenance } from "../services/maintenanceservice.js"
 
 import WaterCard from "../components/watercard.jsx"
 
@@ -19,15 +17,15 @@ function Dashboard() {
   const name = localStorage.getItem("name")
 
   const navigate = useNavigate()
+
+  const [areas, setAreas] = useState([])
+  const [selectedArea, setSelectedArea] = useState("")
   
-  const [waterSupply, setWaterSupply] =
-    useState([])
+  const [waterSupply, setWaterSupply] = useState([])
 
-  const [maintenance, setMaintenance] =
-    useState([])
+  const [maintenance, setMaintenance] = useState([])
 
-  const [loading, setLoading] =
-    useState(true)
+  const [loading, setLoading] = useState(true)
 
   const handleLogout = () => {
 
@@ -39,6 +37,22 @@ function Dashboard() {
   }
   
     useEffect(() => {
+
+    const fetchAreas = async () => {
+
+      try {
+
+              const data = await getAreas()
+
+              setAreas(data)
+
+      } catch (error) {
+
+              console.log(error)
+
+      }
+
+       }
 
     const fetchData = async () => {
 
@@ -67,6 +81,7 @@ function Dashboard() {
     }
 
     fetchData()
+    fetchAreas()
 
   }, [])
 
@@ -85,6 +100,15 @@ function Dashboard() {
       No water supply data available.
     </p>)}
 
+    const filteredWaterSupply =
+          selectedArea === ""
+         ? waterSupply
+         : waterSupply.filter(
+           (item) =>
+           item.area.id ===
+           Number(selectedArea)
+      )
+
   return (
        <>
       <Navbar />
@@ -102,13 +126,44 @@ function Dashboard() {
         </p>
 
       </div>
+
+      <div className="mb-6">
+
+          <label className="font-semibold"> Select Area </label>
+
+          <select
+            value={selectedArea}
+            onChange={(e) =>
+              setSelectedArea(e.target.value)
+            }
+            className="border p-3 rounded-lg ml-3"
+          >
+
+            <option value=""> All Areas </option>
+
+            {areas.map((area) => (
+
+              <option
+                key={area.id}
+                value={area.id}
+              >
+
+                {area.name}
+
+              </option>
+
+            ))}
+
+          </select>
+
+      </div>
       <h2 className="text-3xl font-bold mb-5">
         💧 Water Supply
       </h2>
 
       <div className="grid md:grid-cols-2 gap-5 mb-10">
 
-        {waterSupply.map((water) => (
+        {filteredWaterSupply.map((water) => (
 
           <WaterCard
             key={water.id}

@@ -5,7 +5,8 @@ import { useEffect,useState } from "react"
 import {getStats} from "../services/dashboardService"
 
 function AdminDashboard() {
-
+   
+  const name = localStorage.getItem("name")
   const navigate = useNavigate()
 
   const handleLogout = () => {
@@ -31,13 +32,17 @@ function AdminDashboard() {
 
   return (
 
-    <div className="p-10">
+    <div className="min-h-screen bg-slate-300 p-6">
+      <div className="bg-linear-to-r from-blue-600 to-cyan-500 text-white p-6 rounded-2xl shadow mb-6">
 
-      <button
-        onClick={handleLogout}
-        className="bg-red-500 text-white px-4 py-2 rounded mb-5">
-        Logout
-      </button>
+        <h1 className="text-3xl font-bold">
+          Welcome, {name} !
+        </h1>
+
+        <p className="mt-2">
+          Update the water supply schedules and maintenance notices.
+        </p>
+      </div>
 
       <h1 className="text-4xl font-bold mb-10">
         Admin Dashboard
@@ -47,7 +52,7 @@ function AdminDashboard() {
 
        <Link
          to="/add-water"
-         className="border p-5 rounded-xl shadow">
+         className="border p-5 rounded-xl shadow transition-all duration-300 hover:scale-105">
 
          <h2 className="text-2xl font-bold mb-3">
            Manage Water Supply
@@ -59,7 +64,7 @@ function AdminDashboard() {
 
        <Link
          to="/add-maintenance"
-         className="border p-5 rounded-xl shadow">
+         className="border p-5 rounded-xl shadow transition-all duration-300 hover:scale-105">
 
           <h2 className="text-2xl font-bold mb-3"> Maintenance Updates </h2>
           <p> Add maintenance notices </p>
@@ -67,10 +72,10 @@ function AdminDashboard() {
        </Link>
        <Link
          to="/manage-water"
-         className="border p-5 rounded-xl shadow">
+         className="border p-5 rounded-xl shadow transition-all duration-300 hover:scale-105">
 
           <h2 className="text-2xl font-bold mb-3"> Manage Water Supply </h2>
-          <p> View and delete records </p>
+          <p> Update and delete records </p>
 
         </Link>
 
@@ -109,6 +114,31 @@ function AdminDashboard() {
 
           </div>
 
+      </div>
+      <div className="align-center text-center mb-5 border-t pt-5">
+            <button
+              onClick={() => {
+
+                const confirmLogout =
+                  window.confirm( "Are you sure you want to logout?")
+
+                if (!confirmLogout) {
+
+                  return
+                }
+
+                localStorage.removeItem("token")
+                localStorage.removeItem("role")
+                localStorage.removeItem("name")
+
+                window.location.href = "/"
+
+              }}
+
+              className="hover:text-red-600 text-lg font-bold transition-colors duration-300"
+            >
+              Logout
+            </button>
       </div>
 
     </div>

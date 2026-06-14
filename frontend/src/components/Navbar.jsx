@@ -4,7 +4,7 @@ function Navbar() {
 
   return (
 
-    <nav className="bg-white shadow px-6 py-4 flex justify-between items-center">
+    <nav className=" sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow px-6 py-4 flex justify-between items-center">
 
       <h1 className="text-xl font-bold text-blue-600">
         🔹🔷🔹Water Management🔹🔷🔹
@@ -16,24 +16,31 @@ function Navbar() {
           to="/dashboard"
           className="hover:text-blue-600"
         >
-          Dashboard
+        Dashboard
         </Link>
 
         <button
-            onClick={() => {
+          onClick={() => {
 
-                localStorage.removeItem("token")
-                localStorage.removeItem("role")
+            const confirmLogout =
+              window.confirm( "Are you sure you want to logout?")
 
-                window.location.href = "/"
+            if (!confirmLogout) {
 
-            }}
+              return
+            }
 
-            className="hover:text-red-600"
-            >
+            localStorage.removeItem("token")
+            localStorage.removeItem("role")
+            localStorage.removeItem("name")
 
-            Logout
+            window.location.href = "/"
 
+          }}
+
+          className="hover:text-red-600"
+        >
+          Logout
         </button>
 
       </div>

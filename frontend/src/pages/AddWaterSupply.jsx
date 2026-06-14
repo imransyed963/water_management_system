@@ -100,7 +100,7 @@ function AddWaterSupply() {
               </option>
             ))}
           </select>
-
+          
          <input
           type="text"
           name="water_type"
