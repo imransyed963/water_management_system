@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-import {getAreas} from "../services/areaservice.js"
+import {getAreas} from "../services/areaService.js"
 
 import { getWaterSupply } from "../services/waterservice.js"
 
