@@ -105,7 +105,7 @@ Backend API Docs: https://water-management-system-njnu.onrender.com
   └── README.md
 
 * ⚙️ Installation :   
--> Clone Repository -
+-> Clone Repository - https://github.com/imransyed963/water_management_system.git      
 git clone 
 -> Backend Setup  
 cd backend
