@@ -7,7 +7,7 @@ function Navbar() {
     <nav className=" sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow px-6 py-4 flex justify-between items-center">
 
       <h1 className="text-xl font-bold text-blue-600">
-        🔹🔷🔹Water Management🔹🔷🔹
+        🔹🔷🔹info.H2O🔹🔷🔹
       </h1>
 
       <div className="flex gap-6">
